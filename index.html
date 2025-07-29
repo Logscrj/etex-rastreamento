@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EtexRastreamento - Painel de Controle</title>
+    <title>EtexRastreamento - Painel Web</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * {
@@ -11,465 +11,503 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 20px;
         }
-
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
         .header {
             text-align: center;
-            margin-bottom: 30px;
             color: white;
+            margin-bottom: 30px;
         }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-
+        
         .stat-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-left: 5px solid #4CAF50;
+            text-align: center;
             transition: transform 0.3s ease;
         }
-
+        
         .stat-card:hover {
             transform: translateY(-5px);
         }
-
-        .stat-card h3 {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stat-card .number {
-            font-size: 2.5rem;
+        
+        .stat-number {
+            font-size: 2.5em;
             font-weight: bold;
-            color: #4CAF50;
-            margin-bottom: 5px;
+            margin: 10px 0;
         }
-
-        .main-content {
+        
+        .entregas { color: #4CAF50; }
+        .ativos { color: #2196F3; }
+        .atualizacao { color: #FF9800; }
+        
+        .main-grid {
             display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
         }
-
+        
         .map-container {
             background: white;
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        .map-container h2 {
-            margin-bottom: 15px;
-            color: #333;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-        }
-
+        
         #map {
-            height: 400px;
+            height: 500px;
             border-radius: 10px;
-            border: 2px solid #eee;
         }
-
-        .active-trackings {
+        
+        .sidebar {
             background: white;
             border-radius: 15px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            max-height: 460px;
+            max-height: 580px;
             overflow-y: auto;
         }
-
-        .active-trackings h2 {
-            margin-bottom: 15px;
+        
+        .sidebar h3 {
             color: #333;
-            border-bottom: 2px solid #2196F3;
-            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-
+        
         .tracking-item {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
-            border-left: 4px solid #4CAF50;
+            border-left: 4px solid #2196F3;
             transition: all 0.3s ease;
         }
-
+        
         .tracking-item:hover {
-            background: #e3f2fd;
             transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .tracking-item .pedido {
+        
+        .tracking-item.finalizado {
+            border-left-color: #9E9E9E;
+            opacity: 0.7;
+        }
+        
+        .tracking-item.ativo {
+            border-left-color: #4CAF50;
+            background: #E8F5E8;
+        }
+        
+        .pedido-info {
             font-weight: bold;
-            font-size: 1.1rem;
             color: #2196F3;
             margin-bottom: 5px;
         }
-
-        .tracking-item .placa {
+        
+        .placa-info {
             color: #666;
-            font-size: 0.9rem;
             margin-bottom: 8px;
         }
-
-        .tracking-item .status {
+        
+        .status-badge {
             display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-ativo {
             background: #4CAF50;
             color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+        }
+        
+        .status-finalizado {
+            background: #9E9E9E;
+            color: white;
+        }
+        
+        .ultima-posicao {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 8px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-
-        .tracking-item .timestamp {
-            color: #999;
-            font-size: 0.8rem;
-            margin-top: 5px;
+        
+        .btn-primary {
+            background: #2196F3;
+            color: white;
         }
-
-        .empty-state {
-            text-align: center;
-            color: #999;
-            padding: 40px 20px;
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
         }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
         }
-
-        .status-indicator {
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .online-indicator {
             display: inline-block;
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             background: #4CAF50;
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 5px;
             animation: pulse 2s infinite;
         }
-
+        
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
-
-        .connection-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 10px 15px;
-            border-radius: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            font-size: 0.9rem;
-            z-index: 1000;
-        }
-
-        .connection-status.online {
-            border-left: 4px solid #4CAF50;
-        }
-
-        .connection-status.offline {
-            border-left: 4px solid #F44336;
-        }
-
+        
         @media (max-width: 768px) {
-            .main-content {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
             
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="connection-status" id="connectionStatus">
-        <span class="status-indicator"></span>
-        Conectando...
-    </div>
-
     <div class="container">
         <div class="header">
-            <h1>📱 EtexRastreamento</h1>
-            <p>Painel de Controle - Rastreamentos em Tempo Real</p>
+            <h1>🚚 EtexRastreamento - Painel de Controle</h1>
+            <p>Sistema de Rastreamento em Tempo Real</p>
         </div>
-
+        
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>📊 Total de Entregas</h3>
-                <div class="number" id="totalEntregas">0</div>
-                <small>Entregas registradas</small>
+                <div class="stat-icon">📦</div>
+                <h3>TOTAL DE ENTREGAS</h3>
+                <div class="stat-number entregas" id="totalEntregas">0</div>
+                <p>Entregas registradas</p>
             </div>
             
             <div class="stat-card">
-                <h3>📱 Rastreamentos Ativos</h3>
-                <div class="number" id="entregasAtivas">0</div>
-                <small>Em andamento agora</small>
+                <div class="stat-icon">📱</div>
+                <h3>RASTREAMENTOS ATIVOS</h3>
+                <div class="stat-number ativos" id="rastreamentosAtivos">0</div>
+                <p>Em andamento agora</p>
             </div>
             
             <div class="stat-card">
-                <h3>🕐 Última Atualização</h3>
-                <div class="number" style="font-size: 1.2rem;" id="ultimaAtualizacao">--:--</div>
-                <small>Dados em tempo real</small>
+                <div class="stat-icon">🕐</div>
+                <h3>ÚLTIMA ATUALIZAÇÃO</h3>
+                <div class="stat-number atualizacao" id="ultimaAtualizacao">--:--</div>
+                <p><span class="online-indicator"></span>Dados em tempo real</p>
             </div>
         </div>
-
-        <div class="main-content">
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="atualizarMapa()">🔄 Atualizar Mapa</button>
+            <button class="btn btn-success" onclick="mostrarApenasAtivos()">👁️ Apenas Ativos</button>
+            <button class="btn btn-danger" onclick="limparRastreamentosFinalizados()">🗑️ Limpar Finalizados</button>
+        </div>
+        
+        <div class="main-grid">
             <div class="map-container">
-                <h2>🗺️ Mapa de Rastreamentos</h2>
+                <h3>🗺️ Mapa de Rastreamentos</h3>
                 <div id="map"></div>
             </div>
-
-            <div class="active-trackings">
-                <h2>🚚 Rastreamentos Ativos</h2>
-                <div id="trackingsList">
-                    <div class="empty-state">
-                        <div style="font-size: 3rem; margin-bottom: 15px;">📦</div>
-                        <p>Nenhum rastreamento ativo no momento</p>
-                        <small>Os rastreamentos aparecerão aqui em tempo real</small>
-                    </div>
-                </div>
+            
+            <div class="sidebar">
+                <h3>🚛 Rastreamentos Ativos</h3>
+                <div id="trackingList"></div>
             </div>
         </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Configuração do Firebase
-        const FIREBASE_URL = 'https://etexrastreamento-default-rtdb.firebaseio.com/rastreamento.json';
-        
-        // Variáveis globais
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getDatabase, ref, onValue, remove } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhJMNEk6iKb6nzL7Kh8tWZOExonWqXX3o",
+            authDomain: "etexrastreamento.firebaseapp.com",
+            databaseURL: "https://etexrastreamento-default-rtdb.firebaseio.com",
+            projectId: "etexrastreamento",
+            storageBucket: "etexrastreamento.appspot.com",
+            messagingSenderId: "491897817893",
+            appId: "1:491897817893:web:c5d4f6d8e5b1c2a3f4e5f6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
         let map;
         let markers = [];
-        let isOnline = false;
-        
+        let todosOsDados = [];
+        let mostrarApenasAtivosFlag = false;
+
         // Inicializar mapa
         function initMap() {
-            // Coordenadas do Rio de Janeiro como centro padrão
-            map = L.map('map').setView([-22.9068, -43.1729], 11);
-            
+            map = L.map('map').setView([-23.5489, -46.6388], 11);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
         }
-        
-        // Buscar dados do Firebase
-        async function fetchData() {
-            try {
-                const response = await fetch(FIREBASE_URL);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                
-                updateConnectionStatus(true);
+
+        // Verificar se rastreamento está realmente ativo
+        function isRastreamentoAtivo(dados, numeroPedido) {
+            const agora = Date.now();
+            const ultimaAtualizacao = dados.timestamp || 0;
+            const diferencaTempo = agora - ultimaAtualizacao;
+            
+            // Se última atualização foi há mais de 10 minutos, considerar inativo
+            const TIMEOUT_MINUTOS = 10;
+            const timeoutMs = TIMEOUT_MINUTOS * 60 * 1000;
+            
+            // Verificar se tem status finalizado explícito
+            const statusFinalizado = dados.status === 'finalizado' || dados.evento === 'entrega_finalizada';
+            
+            // Verificar timeout
+            const timeoutExcedido = diferencaTempo > timeoutMs;
+            
+            return !statusFinalizado && !timeoutExcedido;
+        }
+
+        // Atualizar dados do Firebase
+        function atualizarDados() {
+            const localizacoesRef = ref(database, 'localizacoes');
+            
+            onValue(localizacoesRef, (snapshot) => {
+                const data = snapshot.val();
+                todosOsDados = [];
                 
                 if (data) {
-                    processData(data);
-                } else {
-                    // Dados vazios, mostrar estado vazio
-                    updateStats(0, 0);
-                    updateTrackingsList([]);
-                    clearMapMarkers();
+                    Object.keys(data).forEach(key => {
+                        todosOsDados.push({
+                            id: key,
+                            ...data[key]
+                        });
+                    });
                 }
                 
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
-                updateConnectionStatus(false);
+                // Ordenar por timestamp (mais recente primeiro)
+                todosOsDados.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 
-                // Mostrar dados de exemplo em caso de erro
-                showExampleData();
-            }
+                atualizarMapa();
+                atualizarSidebar();
+                atualizarEstatisticas();
+            });
         }
-        
-        // Processar dados recebidos
-        function processData(data) {
-            const trackings = Object.values(data);
-            const activeTrackings = trackings.filter(t => t.status === 'ativo');
-            
-            // Atualizar estatísticas
-            updateStats(trackings.length, activeTrackings.length);
-            
-            // Atualizar lista de rastreamentos ativos
-            updateTrackingsList(activeTrackings);
-            
-            // Atualizar mapa
-            updateMap(activeTrackings);
-            
-            // Atualizar timestamp
-            updateLastUpdate();
-        }
-        
-        // Atualizar estatísticas
-        function updateStats(total, ativos) {
-            document.getElementById('totalEntregas').textContent = total;
-            document.getElementById('entregasAtivas').textContent = ativos;
-        }
-        
-        // Atualizar lista de rastreamentos ativos
-        function updateTrackingsList(activeTrackings) {
-            const container = document.getElementById('trackingsList');
-            
-            if (activeTrackings.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div style="font-size: 3rem; margin-bottom: 15px;">📦</div>
-                        <p>Nenhum rastreamento ativo no momento</p>
-                        <small>Os rastreamentos aparecerão aqui em tempo real</small>
-                    </div>
-                `;
-                return;
-            }
-            
-            // Ordenar por timestamp mais recente
-            activeTrackings.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            const html = activeTrackings.map(tracking => `
-                <div class="tracking-item">
-                    <div class="pedido">📦 Pedido: ${tracking.pedido}</div>
-                    <div class="placa">🚛 Placa: ${tracking.placa}</div>
-                    <div class="status">🟢 ATIVO</div>
-                    <div class="timestamp">
-                        📍 Última posição: ${formatTimestamp(tracking.timestamp)}
-                    </div>
-                </div>
-            `).join('');
-            
-            container.innerHTML = html;
-        }
-        
+
         // Atualizar mapa
-        function updateMap(activeTrackings) {
-            // Limpar marcadores existentes
-            clearMapMarkers();
+        window.atualizarMapa = function() {
+            // Limpar markers existentes
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+
+            const dadosPorPedido = {};
             
-            if (activeTrackings.length === 0) return;
-            
-            // Adicionar novos marcadores
-            activeTrackings.forEach(tracking => {
-                if (tracking.latitude && tracking.longitude) {
-                    const marker = L.marker([tracking.latitude, tracking.longitude])
-                        .addTo(map)
-                        .bindPopup(`
-                            <strong>📦 Pedido: ${tracking.pedido}</strong><br>
-                            🚛 Placa: ${tracking.placa}<br>
-                            📍 Coordenadas: ${tracking.latitude.toFixed(6)}, ${tracking.longitude.toFixed(6)}<br>
-                            🕐 Atualizado: ${formatTimestamp(tracking.timestamp)}
-                        `);
-                    
-                    markers.push(marker);
+            // Agrupar dados por pedido (pegar mais recente de cada)
+            todosOsDados.forEach(item => {
+                if (item.numeroPedido && item.latitude && item.longitude) {
+                    const pedido = item.numeroPedido;
+                    if (!dadosPorPedido[pedido] || item.timestamp > dadosPorPedido[pedido].timestamp) {
+                        dadosPorPedido[pedido] = item;
+                    }
                 }
             });
-            
-            // Ajustar zoom para mostrar todos os pontos
+
+            // Criar markers
+            Object.values(dadosPorPedido).forEach(item => {
+                const ativo = isRastreamentoAtivo(item, item.numeroPedido);
+                
+                // Se flag "apenas ativos" estiver ativa, pular inativos
+                if (mostrarApenasAtivosFlag && !ativo) return;
+                
+                const cor = ativo ? '#4CAF50' : '#9E9E9E';
+                const icon = L.divIcon({
+                    html: `<div style="background: ${cor}; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3);"></div>`,
+                    iconSize: [20, 20],
+                    className: 'custom-marker'
+                });
+
+                const marker = L.marker([item.latitude, item.longitude], { icon }).addTo(map);
+                
+                const statusText = ativo ? 'ATIVO' : 'FINALIZADO';
+                const dataHora = item.dataHora || 'N/A';
+                
+                marker.bindPopup(`
+                    <div style="font-family: Arial; min-width: 200px;">
+                        <h4 style="margin: 0 0 10px 0; color: #333;">📦 Pedido: ${item.numeroPedido}</h4>
+                        <p><strong>🚗 Placa:</strong> ${item.placaVeiculo || 'N/A'}</p>
+                        <p><strong>📍 Coordenadas:</strong><br>
+                           Lat: ${item.latitude.toFixed(6)}<br>
+                           Lng: ${item.longitude.toFixed(6)}</p>
+                        <p><strong>🕐 Data/Hora:</strong> ${dataHora}</p>
+                        <p><strong>📡 Precisão:</strong> ${item.accuracy ? item.accuracy.toFixed(1) + 'm' : 'N/A'}</p>
+                        <div style="margin-top: 10px;">
+                            <span style="background: ${cor}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">
+                                ${statusText}
+                            </span>
+                        </div>
+                    </div>
+                `);
+                
+                markers.push(marker);
+            });
+
+            // Ajustar zoom se houver markers
             if (markers.length > 0) {
                 const group = new L.featureGroup(markers);
                 map.fitBounds(group.getBounds().pad(0.1));
             }
         }
-        
-        // Limpar marcadores do mapa
-        function clearMapMarkers() {
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
-        }
-        
-        // Atualizar status de conexão
-        function updateConnectionStatus(online) {
-            const statusElement = document.getElementById('connectionStatus');
+
+        // Atualizar sidebar
+        function atualizarSidebar() {
+            const trackingList = document.getElementById('trackingList');
             
-            if (online) {
-                statusElement.className = 'connection-status online';
-                statusElement.innerHTML = '<span class="status-indicator"></span>Online ✓';
-                isOnline = true;
-            } else {
-                statusElement.className = 'connection-status offline';
-                statusElement.innerHTML = '<span class="status-indicator" style="background: #F44336;"></span>Offline ❌';
-                isOnline = false;
+            // Agrupar por pedido e pegar mais recente
+            const dadosPorPedido = {};
+            todosOsDados.forEach(item => {
+                if (item.numeroPedido) {
+                    const pedido = item.numeroPedido;
+                    if (!dadosPorPedido[pedido] || item.timestamp > dadosPorPedido[pedido].timestamp) {
+                        dadosPorPedido[pedido] = item;
+                    }
+                }
+            });
+
+            let html = '';
+            Object.values(dadosPorPedido).forEach(item => {
+                const ativo = isRastreamentoAtivo(item, item.numeroPedido);
+                const statusClass = ativo ? 'ativo' : 'finalizado';
+                const statusBadge = ativo ? 'status-ativo' : 'status-finalizado';
+                const statusText = ativo ? 'ATIVO' : 'FINALIZADO';
+                
+                const dataHora = item.dataHora || 'N/A';
+                const coordenadas = item.latitude && item.longitude ? 
+                    `${item.latitude.toFixed(4)}, ${item.longitude.toFixed(4)}` : 'N/A';
+                
+                html += `
+                    <div class="tracking-item ${statusClass}">
+                        <div class="pedido-info">📦 Pedido: ${item.numeroPedido}</div>
+                        <div class="placa-info">🚗 Placa: ${item.placaVeiculo || 'N/A'}</div>
+                        <span class="status-badge ${statusBadge}">${statusText}</span>
+                        <div class="ultima-posicao">
+                            📍 Última posição: ${coordenadas}<br>
+                            🕐 ${dataHora}
+                        </div>
+                    </div>
+                `;
+            });
+
+            trackingList.innerHTML = html || '<p style="text-align: center; color: #888;">Nenhum rastreamento encontrado</p>';
+        }
+
+        // Atualizar estatísticas
+        function atualizarEstatisticas() {
+            const dadosPorPedido = {};
+            todosOsDados.forEach(item => {
+                if (item.numeroPedido) {
+                    const pedido = item.numeroPedido;
+                    if (!dadosPorPedido[pedido] || item.timestamp > dadosPorPedido[pedido].timestamp) {
+                        dadosPorPedido[pedido] = item;
+                    }
+                }
+            });
+
+            const pedidos = Object.values(dadosPorPedido);
+            const totalEntregas = pedidos.length;
+            const ativos = pedidos.filter(item => isRastreamentoAtivo(item, item.numeroPedido)).length;
+
+            document.getElementById('totalEntregas').textContent = totalEntregas;
+            document.getElementById('rastreamentosAtivos').textContent = ativos;
+            
+            const agora = new Date();
+            document.getElementById('ultimaAtualizacao').textContent = 
+                agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Mostrar apenas ativos
+        window.mostrarApenasAtivos = function() {
+            mostrarApenasAtivosFlag = !mostrarApenasAtivosFlag;
+            const btn = event.target;
+            btn.textContent = mostrarApenasAtivosFlag ? '👁️ Mostrar Todos' : '👁️ Apenas Ativos';
+            btn.className = mostrarApenasAtivosFlag ? 'btn btn-success' : 'btn btn-primary';
+            atualizarMapa();
+        }
+
+        // Limpar rastreamentos finalizados
+        window.limparRastreamentosFinalizados = function() {
+            if (!confirm('Tem certeza que deseja limpar todos os rastreamentos finalizados? Esta ação não pode ser desfeita.')) {
+                return;
             }
-        }
-        
-        // Atualizar timestamp da última atualização
-        function updateLastUpdate() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('pt-BR', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            document.getElementById('ultimaAtualizacao').textContent = timeString;
-        }
-        
-        // Formatar timestamp
-        function formatTimestamp(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
-        
-        // Mostrar dados de exemplo em caso de erro
-        function showExampleData() {
-            updateStats(0, 0);
-            updateTrackingsList([]);
-            clearMapMarkers();
-        }
-        
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            initMap();
-            fetchData();
+
+            const localizacoesRef = ref(database, 'localizacoes');
             
-            // Atualizar dados a cada 30 segundos
-            setInterval(fetchData, 30000);
-        });
+            // Buscar e remover itens finalizados
+            todosOsDados.forEach(item => {
+                const ativo = isRastreamentoAtivo(item, item.numeroPedido);
+                if (!ativo && item.id) {
+                    const itemRef = ref(database, `localizacoes/${item.id}`);
+                    remove(itemRef);
+                }
+            });
+
+            alert('Rastreamentos finalizados foram removidos!');
+        }
+
+        // Inicializar
+        initMap();
+        atualizarDados();
+        
+        // Atualizar a cada 30 segundos
+        setInterval(atualizarEstatisticas, 30000);
     </script>
 </body>
 </html>
