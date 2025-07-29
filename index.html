@@ -339,10 +339,37 @@
         // Função para carregar dados do Firebase
         async function loadFirebaseData() {
             try {
-                const response = await fetch(`${firebaseConfig.databaseURL}/rastreamento.json`);
+                // Tentar múltiplas URLs do Firebase
+                const urls = [
+                    `${firebaseConfig.databaseURL}/rastreamento.json`,
+                    `${firebaseConfig.databaseURL}rastreamento.json`,
+                    'https://etexrastreamento-default-rtdb.firebaseio.com/rastreamento.json'
+                ];
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                let response;
+                let lastError;
+                
+                for (const url of urls) {
+                    try {
+                        response = await fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        if (response.ok) {
+                            break;
+                        }
+                    } catch (error) {
+                        lastError = error;
+                        continue;
+                    }
+                }
+                
+                if (!response || !response.ok) {
+                    throw lastError || new Error(`HTTP error! status: ${response?.status || 'Unknown'}`);
                 }
                 
                 const data = await response.json();
