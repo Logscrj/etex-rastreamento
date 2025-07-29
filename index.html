@@ -273,10 +273,6 @@
                 <div class="stat-label">Entregas Ativas</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="totalKm">0</div>
-                <div class="stat-label">Km Percorridos</div>
-            </div>
-            <div class="stat-card">
                 <div class="stat-number" id="ultimaAtualizacao">--</div>
                 <div class="stat-label">Última Atualização</div>
             </div>
@@ -332,8 +328,7 @@
         let deliveryData = {};
         let stats = {
             total: 0,
-            ativas: 0,
-            km: 0
+            ativas: 0
         };
 
         // Função para carregar dados do Firebase
@@ -374,25 +369,40 @@
                 
                 const data = await response.json();
                 
-                if (data) {
+                if (data && Object.keys(data).length > 0) {
                     deliveryData = data;
                     updateMap();
                     updateStats();
                     updateDeliveryList();
-                    updateSystemStatus('Conectado ✅');
+                    updateSystemStatus('🔄 Sistema Operacional');
+                    
+                    // Limpar mensagem de erro se existir
+                    const errorMsg = document.querySelector('.error-message');
+                    if (errorMsg) errorMsg.remove();
+                    
                 } else {
-                    updateSystemStatus('Sem dados disponíveis ⚠️');
+                    updateSystemStatus('Aguardando dados ⏳');
                     document.getElementById('entregasList').innerHTML = 
-                        '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Nenhuma entrega encontrada</div>';
+                        '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Aguardando primeira entrega...</div>';
                 }
                 
                 document.getElementById('lastSync').textContent = new Date().toLocaleString('pt-BR');
                 
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-                updateSystemStatus('Erro de conexão ❌');
-                document.getElementById('entregasList').innerHTML = 
-                    '<div class="error-message">Erro ao carregar dados. Verifique sua conexão com a internet.</div>';
+                
+                // Se já tem dados carregados, não mostrar erro
+                if (Object.keys(deliveryData).length > 0) {
+                    updateSystemStatus('Dados em cache 💾');
+                    return;
+                }
+                
+                updateSystemStatus('Reconectando... 🔄');
+                
+                // Tentar novamente em 10 segundos
+                setTimeout(() => {
+                    loadFirebaseData();
+                }, 10000);
             }
         }
 
@@ -455,7 +465,6 @@
             
             document.getElementById('totalEntregas').textContent = stats.total;
             document.getElementById('entregasAtivas').textContent = stats.ativas;
-            document.getElementById('totalKm').textContent = (stats.total * 15).toFixed(0); // Estimativa
             
             // Última atualização
             const timestamps = entregas.map(key => deliveryData[key].timestamp).filter(Boolean);
