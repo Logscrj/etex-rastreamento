@@ -19,33 +19,27 @@
             color: #333;
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            margin-bottom: 30px;
+            color: white;
         }
 
         .header h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header p {
-            color: #7f8c8d;
-            font-size: 1.1em;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px 20px;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .stats-grid {
@@ -56,35 +50,31 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid #4CAF50;
+            transition: transform 0.3s ease;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
         }
 
-        .stat-number {
-            font-size: 3em;
-            font-weight: bold;
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-label {
-            color: #7f8c8d;
-            font-size: 1.1em;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 5px;
         }
 
         .main-content {
@@ -95,140 +85,129 @@
         }
 
         .map-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .map-container h2 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
         }
 
         #map {
-            height: 500px;
+            height: 400px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #eee;
         }
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .info-panel {
-            background: rgba(255, 255, 255, 0.95);
+        .active-trackings {
+            background: white;
             border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 460px;
+            overflow-y: auto;
         }
 
-        .info-panel h3 {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.3em;
+        .active-trackings h2 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
         }
 
-        .delivery-item {
-            background: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid #3498db;
+        .tracking-item {
+            background: #f8f9fa;
+            border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
-            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
             transition: all 0.3s ease;
         }
 
-        .delivery-item:hover {
-            background: rgba(52, 152, 219, 0.2);
+        .tracking-item:hover {
+            background: #e3f2fd;
             transform: translateX(5px);
         }
 
-        .delivery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .pedido-numero {
+        .tracking-item .pedido {
             font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1em;
-        }
-
-        .status-badge {
-            background: #27ae60;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-
-        .delivery-details {
-            color: #7f8c8d;
-            font-size: 0.95em;
-            line-height: 1.4;
-        }
-
-        .last-update {
-            background: rgba(241, 196, 15, 0.1);
-            border: 2px solid #f1c40f;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .last-update strong {
-            color: #f39c12;
-            display: block;
+            font-size: 1.1rem;
+            color: #2196F3;
             margin-bottom: 5px;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
-            font-size: 1.2em;
+        .tracking-item .placa {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
 
-        .loading::after {
-            content: '';
+        .tracking-item .status {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .tracking-item .timestamp {
+            color: #999;
+            font-size: 0.8rem;
+            margin-top: 5px;
         }
 
-        .error-message {
-            background: rgba(231, 76, 60, 0.1);
-            border: 2px solid #e74c3c;
-            color: #c0392b;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
+        .empty-state {
             text-align: center;
+            color: #999;
+            padding: 40px 20px;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
+        .connection-status.online {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .connection-status.offline {
+            border-left: 4px solid #F44336;
         }
 
         @media (max-width: 768px) {
@@ -237,72 +216,60 @@
             }
             
             .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                grid-template-columns: 1fr;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 2rem;
             }
-            
-            #map {
-                height: 400px;
-            }
-        }
-
-        .icon {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>🚚 EtexRastreamento</h1>
-        <p>Sistema de Rastreamento em Tempo Real</p>
-    </header>
+    <div class="connection-status" id="connectionStatus">
+        <span class="status-indicator"></span>
+        Conectando...
+    </div>
 
     <div class="container">
+        <div class="header">
+            <h1>📱 EtexRastreamento</h1>
+            <p>Painel de Controle - Rastreamentos em Tempo Real</p>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number" id="totalEntregas">0</div>
-                <div class="stat-label">Total de Entregas</div>
+                <h3>📊 Total de Entregas</h3>
+                <div class="number" id="totalEntregas">0</div>
+                <small>Entregas registradas</small>
             </div>
+            
             <div class="stat-card">
-                <div class="stat-number" id="entregasAtivas">0</div>
-                <div class="stat-label">Entregas Ativas</div>
+                <h3>📱 Rastreamentos Ativos</h3>
+                <div class="number" id="entregasAtivas">0</div>
+                <small>Em andamento agora</small>
             </div>
+            
             <div class="stat-card">
-                <div class="stat-number" id="ultimaAtualizacao">--</div>
-                <div class="stat-label">Última Atualização</div>
+                <h3>🕐 Última Atualização</h3>
+                <div class="number" style="font-size: 1.2rem;" id="ultimaAtualizacao">--:--</div>
+                <small>Dados em tempo real</small>
             </div>
         </div>
 
         <div class="main-content">
             <div class="map-container">
-                <h2>
-                    🗺️ Mapa de Rastreamento
-                </h2>
+                <h2>🗺️ Mapa de Rastreamentos</h2>
                 <div id="map"></div>
             </div>
 
-            <div class="sidebar">
-                <div class="info-panel">
-                    <h3>📦 Entregas Recentes</h3>
-                    <div id="entregasList">
-                        <div class="loading">Carregando dados...</div>
-                    </div>
-                </div>
-
-                <div class="info-panel">
-                    <h3>ℹ️ Informações do Sistema</h3>
-                    <div class="last-update">
-                        <strong>Status:</strong>
-                        <span id="systemStatus">Conectado</span>
-                    </div>
-                    <div style="margin-top: 15px; font-size: 0.9em; color: #7f8c8d;">
-                        <strong>Última sincronização:</strong><br>
-                        <span id="lastSync">Carregando...</span>
+            <div class="active-trackings">
+                <h2>🚚 Rastreamentos Ativos</h2>
+                <div id="trackingsList">
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📦</div>
+                        <p>Nenhum rastreamento ativo no momento</p>
+                        <small>Os rastreamentos aparecerão aqui em tempo real</small>
                     </div>
                 </div>
             </div>
@@ -312,224 +279,196 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Configuração do Firebase
-        const firebaseConfig = {
-            databaseURL: "https://etexrastreamento-default-rtdb.firebaseio.com/"
-        };
-
-        // Inicializar mapa
-        const map = L.map('map').setView([-22.9068, -43.1729], 11);
+        const FIREBASE_URL = 'https://etexrastreamento-default-rtdb.firebaseio.com/rastreamento.json';
         
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
         // Variáveis globais
+        let map;
         let markers = [];
-        let deliveryData = {};
-        let stats = {
-            total: 0,
-            ativas: 0
-        };
-
-        // Função para carregar dados do Firebase
-        async function loadFirebaseData() {
+        let isOnline = false;
+        
+        // Inicializar mapa
+        function initMap() {
+            // Coordenadas do Rio de Janeiro como centro padrão
+            map = L.map('map').setView([-22.9068, -43.1729], 11);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+        }
+        
+        // Buscar dados do Firebase
+        async function fetchData() {
             try {
-                // Tentar múltiplas URLs do Firebase
-                const urls = [
-                    `${firebaseConfig.databaseURL}/rastreamento.json`,
-                    `${firebaseConfig.databaseURL}rastreamento.json`,
-                    'https://etexrastreamento-default-rtdb.firebaseio.com/rastreamento.json'
-                ];
+                const response = await fetch(FIREBASE_URL);
                 
-                let response;
-                let lastError;
-                
-                for (const url of urls) {
-                    try {
-                        response = await fetch(url, {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        });
-                        
-                        if (response.ok) {
-                            break;
-                        }
-                    } catch (error) {
-                        lastError = error;
-                        continue;
-                    }
-                }
-                
-                if (!response || !response.ok) {
-                    throw lastError || new Error(`HTTP error! status: ${response?.status || 'Unknown'}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 const data = await response.json();
                 
-                if (data && Object.keys(data).length > 0) {
-                    deliveryData = data;
-                    updateMap();
-                    updateStats();
-                    updateDeliveryList();
-                    updateSystemStatus('🔄 Sistema Operacional');
-                    
-                    // Limpar mensagem de erro se existir
-                    const errorMsg = document.querySelector('.error-message');
-                    if (errorMsg) errorMsg.remove();
-                    
-                } else {
-                    updateSystemStatus('Aguardando dados ⏳');
-                    document.getElementById('entregasList').innerHTML = 
-                        '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Aguardando primeira entrega...</div>';
-                }
+                updateConnectionStatus(true);
                 
-                document.getElementById('lastSync').textContent = new Date().toLocaleString('pt-BR');
+                if (data) {
+                    processData(data);
+                } else {
+                    // Dados vazios, mostrar estado vazio
+                    updateStats(0, 0);
+                    updateTrackingsList([]);
+                    clearMapMarkers();
+                }
                 
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+                console.error('Erro ao buscar dados:', error);
+                updateConnectionStatus(false);
                 
-                // Se já tem dados carregados, não mostrar erro
-                if (Object.keys(deliveryData).length > 0) {
-                    updateSystemStatus('Dados em cache 💾');
-                    return;
-                }
-                
-                updateSystemStatus('Reconectando... 🔄');
-                
-                // Tentar novamente em 10 segundos
-                setTimeout(() => {
-                    loadFirebaseData();
-                }, 10000);
+                // Mostrar dados de exemplo em caso de erro
+                showExampleData();
             }
         }
-
-        // Função para atualizar o mapa
-        function updateMap() {
-            // Limpar marcadores existentes
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
-
-            const bounds = [];
-
-            Object.keys(deliveryData).forEach(key => {
-                const delivery = deliveryData[key];
-                
-                if (delivery.latitude && delivery.longitude) {
-                    const lat = parseFloat(delivery.latitude);
-                    const lng = parseFloat(delivery.longitude);
-                    
-                    if (!isNaN(lat) && !isNaN(lng)) {
-                        bounds.push([lat, lng]);
-                        
-                        const marker = L.marker([lat, lng]).addTo(map);
-                        
-                        const popupContent = `
-                            <div style="min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: #2c3e50;">📦 ${delivery.pedido || 'N/A'}</h4>
-                                <p style="margin: 5px 0;"><strong>🚗 Placa:</strong> ${delivery.placa || 'N/A'}</p>
-                                <p style="margin: 5px 0;"><strong>📍 Coordenadas:</strong> ${lat.toFixed(6)}, ${lng.toFixed(6)}</p>
-                                <p style="margin: 5px 0;"><strong>🕐 Horário:</strong> ${delivery.timestamp || 'N/A'}</p>
-                                <p style="margin: 5px 0;"><strong>📊 Status:</strong> <span style="color: #27ae60; font-weight: bold;">${delivery.status || 'Ativo'}</span></p>
-                                ${delivery.precisao ? `<p style="margin: 5px 0;"><strong>🎯 Precisão:</strong> ${delivery.precisao}m</p>` : ''}
-                            </div>
-                        `;
-                        
-                        marker.bindPopup(popupContent);
-                        markers.push(marker);
-                    }
-                }
-            });
-
-            // Ajustar zoom para mostrar todos os pontos
-            if (bounds.length > 0) {
-                if (bounds.length === 1) {
-                    map.setView(bounds[0], 15);
-                } else {
-                    map.fitBounds(bounds, { padding: [20, 20] });
-                }
-            }
+        
+        // Processar dados recebidos
+        function processData(data) {
+            const trackings = Object.values(data);
+            const activeTrackings = trackings.filter(t => t.status === 'ativo');
+            
+            // Atualizar estatísticas
+            updateStats(trackings.length, activeTrackings.length);
+            
+            // Atualizar lista de rastreamentos ativos
+            updateTrackingsList(activeTrackings);
+            
+            // Atualizar mapa
+            updateMap(activeTrackings);
+            
+            // Atualizar timestamp
+            updateLastUpdate();
         }
-
-        // Função para atualizar estatísticas
-        function updateStats() {
-            const entregas = Object.keys(deliveryData);
-            const entregasAtivas = entregas.filter(key => 
-                deliveryData[key].status === 'ativo' || !deliveryData[key].status
-            );
-            
-            stats.total = entregas.length;
-            stats.ativas = entregasAtivas.length;
-            
-            document.getElementById('totalEntregas').textContent = stats.total;
-            document.getElementById('entregasAtivas').textContent = stats.ativas;
-            
-            // Última atualização
-            const timestamps = entregas.map(key => deliveryData[key].timestamp).filter(Boolean);
-            if (timestamps.length > 0) {
-                const latest = timestamps.sort().pop();
-                const time = latest.split(' ')[1] || latest;
-                document.getElementById('ultimaAtualizacao').textContent = time;
-            }
+        
+        // Atualizar estatísticas
+        function updateStats(total, ativos) {
+            document.getElementById('totalEntregas').textContent = total;
+            document.getElementById('entregasAtivas').textContent = ativos;
         }
-
-        // Função para atualizar lista de entregas
-        function updateDeliveryList() {
-            const entregasList = document.getElementById('entregasList');
-            const entregas = Object.keys(deliveryData)
-                .map(key => ({ id: key, ...deliveryData[key] }))
-                .sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''))
-                .slice(0, 10); // Mostrar apenas as 10 mais recentes
-
-            if (entregas.length === 0) {
-                entregasList.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">Nenhuma entrega encontrada</div>';
+        
+        // Atualizar lista de rastreamentos ativos
+        function updateTrackingsList(activeTrackings) {
+            const container = document.getElementById('trackingsList');
+            
+            if (activeTrackings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📦</div>
+                        <p>Nenhum rastreamento ativo no momento</p>
+                        <small>Os rastreamentos aparecerão aqui em tempo real</small>
+                    </div>
+                `;
                 return;
             }
-
-            entregasList.innerHTML = entregas.map(entrega => `
-                <div class="delivery-item">
-                    <div class="delivery-header">
-                        <span class="pedido-numero">📦 ${entrega.pedido || 'N/A'}</span>
-                        <span class="status-badge">${entrega.status || 'Ativo'}</span>
-                    </div>
-                    <div class="delivery-details">
-                        🚗 <strong>Placa:</strong> ${entrega.placa || 'N/A'}<br>
-                        📍 <strong>Localização:</strong> ${entrega.latitude && entrega.longitude ? 
-                            `${parseFloat(entrega.latitude).toFixed(4)}, ${parseFloat(entrega.longitude).toFixed(4)}` : 
-                            'Não disponível'}<br>
-                        🕐 <strong>Último update:</strong> ${entrega.timestamp || 'N/A'}
-                        ${entrega.precisao ? `<br>🎯 <strong>Precisão:</strong> ${entrega.precisao}m` : ''}
+            
+            // Ordenar por timestamp mais recente
+            activeTrackings.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            const html = activeTrackings.map(tracking => `
+                <div class="tracking-item">
+                    <div class="pedido">📦 Pedido: ${tracking.pedido}</div>
+                    <div class="placa">🚛 Placa: ${tracking.placa}</div>
+                    <div class="status">🟢 ATIVO</div>
+                    <div class="timestamp">
+                        📍 Última posição: ${formatTimestamp(tracking.timestamp)}
                     </div>
                 </div>
             `).join('');
+            
+            container.innerHTML = html;
         }
-
-        // Função para atualizar status do sistema
-        function updateSystemStatus(status) {
-            document.getElementById('systemStatus').textContent = status;
+        
+        // Atualizar mapa
+        function updateMap(activeTrackings) {
+            // Limpar marcadores existentes
+            clearMapMarkers();
+            
+            if (activeTrackings.length === 0) return;
+            
+            // Adicionar novos marcadores
+            activeTrackings.forEach(tracking => {
+                if (tracking.latitude && tracking.longitude) {
+                    const marker = L.marker([tracking.latitude, tracking.longitude])
+                        .addTo(map)
+                        .bindPopup(`
+                            <strong>📦 Pedido: ${tracking.pedido}</strong><br>
+                            🚛 Placa: ${tracking.placa}<br>
+                            📍 Coordenadas: ${tracking.latitude.toFixed(6)}, ${tracking.longitude.toFixed(6)}<br>
+                            🕐 Atualizado: ${formatTimestamp(tracking.timestamp)}
+                        `);
+                    
+                    markers.push(marker);
+                }
+            });
+            
+            // Ajustar zoom para mostrar todos os pontos
+            if (markers.length > 0) {
+                const group = new L.featureGroup(markers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
         }
-
-        // Inicializar e configurar atualização automática
+        
+        // Limpar marcadores do mapa
+        function clearMapMarkers() {
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+        }
+        
+        // Atualizar status de conexão
+        function updateConnectionStatus(online) {
+            const statusElement = document.getElementById('connectionStatus');
+            
+            if (online) {
+                statusElement.className = 'connection-status online';
+                statusElement.innerHTML = '<span class="status-indicator"></span>Online ✓';
+                isOnline = true;
+            } else {
+                statusElement.className = 'connection-status offline';
+                statusElement.innerHTML = '<span class="status-indicator" style="background: #F44336;"></span>Offline ❌';
+                isOnline = false;
+            }
+        }
+        
+        // Atualizar timestamp da última atualização
+        function updateLastUpdate() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('pt-BR', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('ultimaAtualizacao').textContent = timeString;
+        }
+        
+        // Formatar timestamp
+        function formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Mostrar dados de exemplo em caso de erro
+        function showExampleData() {
+            updateStats(0, 0);
+            updateTrackingsList([]);
+            clearMapMarkers();
+        }
+        
+        // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            loadFirebaseData();
+            initMap();
+            fetchData();
             
             // Atualizar dados a cada 30 segundos
-            setInterval(loadFirebaseData, 30000);
-            
-            // Atualizar indicador de tempo
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('lastSync').textContent = now.toLocaleString('pt-BR');
-            }, 1000);
-        });
-
-        // Recarregar dados quando a página ficar visível novamente
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                loadFirebaseData();
-            }
+            setInterval(fetchData, 30000);
         });
     </script>
 </body>
